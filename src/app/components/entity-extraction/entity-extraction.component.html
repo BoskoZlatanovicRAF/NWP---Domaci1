@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <h2>Entity Extraction</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="text" class="form-label">Enter text for analysis:</label>
+      <textarea class="form-control" id="text" rows="3" [(ngModel)]="text" name="text"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="minConfidence" class="form-label">Min Confidence: {{minConfidence}}</label>
+      <input type="range" class="form-range" min="0" max="1" step="0.01" id="minConfidence" [(ngModel)]="minConfidence" name="minConfidence">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Include options:</label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="includeImage" [(ngModel)]="includeOptions.image" name="includeImage">
+        <label class="form-check-label" for="includeImage">Image</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="includeAbstract" [(ngModel)]="includeOptions.abstract" name="includeAbstract">
+        <label class="form-check-label" for="includeAbstract">Abstract</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="includeCategories" [(ngModel)]="includeOptions.categories" name="includeCategories">
+        <label class="form-check-label" for="includeCategories">Categories</label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <div *ngIf="results.length > 0" class="mt-4">
+    <h3>Results:</h3>
+    <ul class="list-group">
+      <li *ngFor="let entity of results" class="list-group-item">
+        <h5>{{ entity.spot }}</h5>
+        <p>Confidence: {{ entity.confidence | number:'1.2-2' }}</p>
+
+        <div *ngIf="includeOptions.image && entity.image">
+          <img [src]="entity.image.thumbnail" alt="{{ entity.spot }}" class="img-thumbnail">
+        </div>
+
+        <div *ngIf="includeOptions.abstract && entity.abstract">
+          <p><strong>Abstract:</strong> {{ entity.abstract }}</p>
+        </div>
+
+        <div *ngIf="includeOptions.categories && entity.categories">
+          <p><strong>Categories:</strong></p>
+          <ul>
+            <li *ngFor="let category of entity.categories">{{ category }}</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="loading" class="mt-4">
+    <p>Loading results...</p>
+  </div>
+
+  <div *ngIf="error" class="mt-4 alert alert-danger">
+    {{ error }}
+  </div>
+</div>
