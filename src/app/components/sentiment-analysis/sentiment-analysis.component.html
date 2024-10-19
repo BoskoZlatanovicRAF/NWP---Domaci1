@@ -1,1 +1,47 @@
-<p>sentiment-analysis works!</p>
+<div class="container mt-4">
+  <h2>Sentiment Analysis</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="text" class="form-label">Enter text for sentiment analysis:</label>
+      <textarea
+        class="form-control"
+        id="text"
+        rows="3"
+        [(ngModel)]="text"
+        name="text"
+        placeholder="Enter text to analyze"
+        required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="language" class="form-label">Select Language:</label>
+      <select
+        class="form-select"
+        id="language"
+        [(ngModel)]="lang"
+        name="lang">
+        <option value="auto">Auto-Detect</option>
+        <option value="en">English</option>
+        <option value="it">Italian</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Analyze Sentiment</button>
+  </form>
+
+  <div *ngIf="score || type" class="mt-4">
+    <h3>Results:</h3>
+    <div class="card">
+      <div class="card-body">
+        <p>Score: {{ score | number:'1.2-2' }}</p>
+        <p>Type: {{ type }}</p>
+
+        <div
+          class="sentiment-indicator"
+          [style.background-color]="getColorForScore(score)"
+          style="width: 100%; height: 30px; border-radius: 4px;">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

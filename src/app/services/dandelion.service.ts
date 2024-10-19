@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SentimentResponse } from '../components/sentiment-analysis/interface/sentiment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +49,25 @@ export class DandelionService {
     return this.http.get(this.apiUrl + 'sim/v1', {params})
   }
 
+  detectLanguage(text: string, clean: boolean): Observable<any> {
+    const token = localStorage.getItem('dandelionToken');
+    let params = new HttpParams()
+      .set('text', text)
+      .set('clean', clean)
+      .set('token', token || '')
+
+
+
+    return this.http.get(this.apiUrl + 'li/v1', { params });
+  }
+
+  sentimentAnalysis(text: string, lang: string): Observable<SentimentResponse> {
+    const token = localStorage.getItem('dandelionToken');
+    let params = new HttpParams()
+      .set('text', text)
+      .set('lang', lang)
+      .set('token', token || '')
+
+    return this.http.get<SentimentResponse>(this.apiUrl + 'sent/v1', { params });
+  }
 }
