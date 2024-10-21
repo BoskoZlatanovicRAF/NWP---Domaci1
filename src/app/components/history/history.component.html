@@ -1,1 +1,9 @@
-<p>history works!</p>
+<!-- components/history/history.component.html -->
+<div class="container mt-4">
+  <h2>API Call History</h2>
+  <pre class="bg-light p-3">
+    <div *ngFor="let call of historyService.getHistory()">
+      {{ call }}
+    </div>
+  </pre>
+</div>

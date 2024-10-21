@@ -18,11 +18,11 @@ export class LanguageDetectionComponent {
     this.dandelionService.detectLanguage(this.text, this.clean)
       .subscribe({
         next: (result) => {
-          console.log('Result:', result);
+          // console.log('Result:', result);
           this.detectedLangs = result.detectedLangs;
         },
         error: (error) => {
-          console.log("nije uspeo");
+          // console.log("nije uspeo");
           console.error('Error:', error);
         }
       });

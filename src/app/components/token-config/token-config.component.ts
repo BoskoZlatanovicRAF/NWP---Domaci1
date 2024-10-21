@@ -26,14 +26,11 @@ export class TokenConfigComponent implements OnInit{
     this.error = '';
     this.dandelionService.validateToken(this.token).subscribe({
       next: () => {
-        console.log('Token is valid');
-        // Token is valid
-        localStorage.setItem('dandelionToken', this.token);
+        // alert('Token saved successfully');
         // this.router.navigate(['/entity-extraction']);
+        localStorage.setItem('dandelionToken', this.token);
       },
       error: (error) => {
-        // Token is invalid
-        console.error('Token is INvalid');
         this.error = 'Invalid token. Please check and try again.';
         alert('Invalid token. Please check and try again.');
         localStorage.removeItem('dandelionToken');
